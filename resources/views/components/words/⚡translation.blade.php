@@ -3,22 +3,32 @@
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use App\Services\CountryService;
+use App\Services\WordService;
 use Flux\Flux;
 new class extends Component
 {
     protected $countryService;
+    protected $wordService;
     public $searchCountry;
-    public $country = '',$translation,$filipino,$example;
+    public $wordId;
+    public $country = '', $translation, $filipino, $example;
 
-    public function boot(CountryService $countryService)
+    public function boot(CountryService $countryService,WordService $wordService)
     {
         $this->countryService = $countryService;
+        $this->wordService = $wordService;
     }
 
     #[Computed]
     public function countries()
     {
         return $this->countryService->getSearchCountries($this->searchCountry);
+    }
+
+    #[Computed]
+    public function translations()
+    {
+        return $this->wordService->getTranslation($this->wordId);
     }
 
     public function submitTranslation()
@@ -30,14 +40,17 @@ new class extends Component
         ]);
 
         $object = new \stdClass();
-        $object->id = $this->id;
-        $object->exams = $this->exams;
+        $object->country = $this->country;
+        $object->wordId = $this->wordId;
+        $object->translation = strtolower($this->translation);
+        $object->example = $this->example;
 
-        $result = $this->applicantService->retakeExam($object);
+
+        $result = $this->wordService->saveTranslation($object);
+
         if($result){
-            $this->dispatch('refresh-applicant');
-            Flux::toast(variant: 'success',heading: 'Retake On',text : 'Applicant has been allowed to retake exam');
-            $this->retakeModal = false;
+            $this->dispatch('refresh-translation');
+            Flux::toast(variant: 'success',heading: 'Created',text : 'New translation has been created.');
         }
     }
 };
@@ -71,20 +84,12 @@ new class extends Component
                 <h2 class="text-lg font-semibold">Translations</h2>
 
                 <div class="space-y-3">
+                    @foreach ($this->translations as $translation)
                     <div class="rounded-lg border p-4">
-                        <p class="font-medium">English Translation</p>
-                        <p class="text-sm text-zinc-500">Updated 2 hours ago</p>
+                        <p class="font-medium">{{ $translation->country?->name }}</p>
+                        <p class="text-sm text-zinc-500">{{ $translation->translation }}</p>
                     </div>
-
-                    <div class="rounded-lg border p-4">
-                        <p class="font-medium">French Translation</p>
-                        <p class="text-sm text-zinc-500">Updated yesterday</p>
-                    </div>
-
-                    <div class="rounded-lg border p-4">
-                        <p class="font-medium">Spanish Translation</p>
-                        <p class="text-sm text-zinc-500">Updated 3 days ago</p>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </flux:fieldset>

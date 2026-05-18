@@ -30,4 +30,20 @@ class WordService
     {
         return $this->wordInterface->findWord($id);
     }
+
+    public function saveTranslation($request)
+    {
+        $data = [
+            'country_id' => $request->country,
+            'word_id' => $request->wordId,
+            'translation' => $request->translation,
+            'sample' => $request->example,
+        ];
+        return $this->wordInterface->saveTranslation($data);
+    }
+
+    public function getTranslation($wordId)
+    {
+        return $this->wordInterface->getTranslation($wordId);    
+    }
 }

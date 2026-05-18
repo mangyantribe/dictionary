@@ -21,5 +21,5 @@ new #[Title('Translation')] class extends Component
     </flux:heading>
     <flux:subheading size="lg" class="mb-6">{{ __('Word Translation for '. $word->word) }}</flux:subheading>
     <flux:separator variant="subtle" />
-    <livewire:words.translation/>
+    <livewire:words.translation :wordId="$word->id"/>
 </div>

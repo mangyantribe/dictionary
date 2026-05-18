@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 use App\Models\Word;
+use App\Models\Translation;
 use App\Interfaces\WordInterface;
 class WordRepository implements WordInterface
 {
@@ -20,5 +21,19 @@ class WordRepository implements WordInterface
     public function findWord($id)
     {
         return Word::find($id);
+    }
+
+    public function saveTranslation($data)
+    {
+        return Translation::updateOrCreate([
+            'word_id' => $data['word_id'],
+            'country_id' => $data['country_id'],
+            ],$data
+        );
+    }
+
+    public function getTranslation($wordId)
+    {
+        return Translation::with('country')->where('word_id', $wordId)->get();
     }
 }
