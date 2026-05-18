@@ -17,8 +17,7 @@ class CountryRepository implements CountryInterface
 
     public function getGuestCountries($search = null,$cursor = null)
     {
-        //return Country::orderBy('name')->cursorPaginate(10, ['id', 'photo', 'name'], 'cursor', $cursor);
-        return Country::query()->when($search, function ($query) use ($search) {
+        return Country::query()->when($search, function ($query) use ($search){
             $query->where('name', 'like', '%' . $search . '%');
         })->orderBy('name')->cursorPaginate(10, ['id', 'photo', 'name'], 'cursor', $cursor);
     }
