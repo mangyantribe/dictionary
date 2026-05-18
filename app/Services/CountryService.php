@@ -28,6 +28,26 @@ class CountryService
         return $this->countryInterface->getCounties();
     }
 
+    public function getGuestCountries($search,$cursor)
+    {
+        $data = [];
+
+        $countries = $this->countryInterface->getGuestCountries($search,$cursor);
+
+        foreach ($countries as $key => $country) {
+
+            $data[] = array(
+                'id'         => $country->id,
+                'photo'      => $country->photo,
+                'name'       => $country->name,  
+            );
+        }
+        return [
+            'data'   => $data,
+            'cursor' => $countries->nextCursor()?->encode(),
+        ];
+    }
+
     public function findCountry($id)
     {
         return $this->countryInterface->findCountry($id);

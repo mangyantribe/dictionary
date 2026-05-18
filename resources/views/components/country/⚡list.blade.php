@@ -2,12 +2,13 @@
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithoutUrlPagination;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use App\Services\CountryService;
 new class extends Component
 {
-    use WithPagination;
+    use WithPagination, WithoutUrlPagination;
     protected $countryService;
 
     public function boot(CountryService $countryService)
