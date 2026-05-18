@@ -23,6 +23,11 @@ class CountryService
         return $this->countryInterface->saveCountry($data);
     }
 
+    public function getSearchCountries($keyword)
+    {
+        return $this->countryInterface->getSearchCountries($keyword);
+    }
+
     public function getCounties()
     {
         return $this->countryInterface->getCounties();

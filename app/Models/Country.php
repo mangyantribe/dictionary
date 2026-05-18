@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 #[Fillable(['name','photo'])]
 class Country extends Model
 {
-    //
+    public function translations()
+    {
+        return $this->hasMany(Translation::class);
+    }
 }

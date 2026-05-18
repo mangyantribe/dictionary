@@ -10,6 +10,13 @@ class CountryRepository implements CountryInterface
         return Country::updateOrCreate(['id' => $data['id']],$data);
     }
 
+    public function getSearchCountries($keyword = null)
+    {
+        return Country::query()->when(filled($keyword),
+                fn ($query) => $query->where('name', 'like', '%' . trim($keyword) . '%')
+            )->orderBy('name')->limit(5)->get();
+    }
+
     public function getCounties()
     {
         return Country::orderBy('name')->paginate(10);

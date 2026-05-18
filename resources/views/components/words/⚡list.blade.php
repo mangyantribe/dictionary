@@ -56,11 +56,13 @@ new class extends Component
                         </flux:table.cell>
 
                         <flux:table.cell align="end">
-                            <flux:button variant="primary" wire:click="editWord({{ $word->id }})">
+                            <flux:button icon="language" href="{{ URL::signedRoute('translation', $word) }}" variant="primary">
+                                Translation
+                            </flux:button>
+                            <flux:button icon="pencil-square" variant="primary" wire:click="editWord({{ $word->id }})">
                                 Edit
                             </flux:button>
-
-                            <flux:button variant="danger" wire:click="deleteWord({{ $word->id }})">
+                            <flux:button icon="trash" variant="danger" wire:click="deleteWord({{ $word->id }})">
                                 Delete
                             </flux:button>
                         </flux:table.cell>
