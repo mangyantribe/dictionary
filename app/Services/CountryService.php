@@ -17,8 +17,19 @@ class CountryService
     public function saveCountry($request)
     {
         $data = [
+            'id'    => $request->id,
             'name' => $request->name,
         ];
         return $this->countryInterface->saveCountry($data);
+    }
+
+    public function getCounties()
+    {
+        return $this->countryInterface->getCounties();
+    }
+
+    public function findCountry($id)
+    {
+        return $this->countryInterface->findCountry($id);
     }
 }

@@ -25,4 +25,5 @@ new class extends Component
     <flux:separator variant="subtle" />
     <livewire:country.list/>
     <livewire:country.create/>
+    <livewire:country.delete/>
 </div>
