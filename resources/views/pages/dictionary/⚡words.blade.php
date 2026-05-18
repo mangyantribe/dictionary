@@ -1,8 +1,8 @@
 <?php
 
 use Livewire\Component;
-
-new class extends Component
+use Livewire\Attributes\Title;
+new #[Title('Words')] class extends Component
 {
     public function addWord()
     {   
