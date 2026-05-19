@@ -3,7 +3,6 @@
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use App\Services\WordService;
-use App\Services\CountryService;
 use Livewire\Attributes\Computed;
 new #[Layout('layouts::guest')] class extends Component
 {
@@ -26,7 +25,7 @@ new #[Layout('layouts::guest')] class extends Component
 
     public function showDetails($id)
     {
-        dd($id);
+        $this->dispatch('show-details',countryId:$this->id,wordId:$id);
     }   
 };
 ?>
@@ -57,4 +56,5 @@ new #[Layout('layouts::guest')] class extends Component
             </div>
         </flux:card>
     </div>
+    <livewire:pages::guest.details/>
 </div>

@@ -32,9 +32,27 @@ class WordRepository implements WordInterface
         );
     }
 
-    public function getTranslation($wordId,$cursor = null)
+    /**
+     * one is to many
+    */
+    public function getTranslations($wordId,$cursor = null)
     {
         return Translation::with('country')->where('word_id', $wordId)->cursorPaginate(10,['id', 'country_id', 'kahulugan'],'cursor',$cursor);
+    }
+
+    /**
+     * one is to one
+    */
+    public function getTranslation($countryId, $wordId)
+    {
+        return Translation::where('word_id', $wordId)
+            ->where('country_id', $countryId)
+            ->first();
+
+            // return Translation::with(['word', 'country'])
+            // ->where('word_id', $wordId)
+            // ->where('country_id', $countryId)
+            // ->first();
     }
 
     public function getCountryWords($countryId, $search = null)
@@ -46,5 +64,5 @@ class WordRepository implements WordInterface
             })->with(['translations' => function ($q) use ($countryId) {
                 $q->where('country_id', $countryId)->with('country');
             }])->orderBy('word')->limit(5)->get();
-    }
+    } 
 }

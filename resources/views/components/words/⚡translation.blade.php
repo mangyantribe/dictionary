@@ -64,7 +64,7 @@ new class extends Component
 
     public function loadTranslation()
     {
-        $result = $this->wordService->getTranslation($this->wordId,$this->cursor);
+        $result = $this->wordService->getTranslations($this->wordId,$this->cursor);
         $this->translations = array_merge($this->translations,$result['data']); 
         $this->cursor = $result['cursor'];
     }
