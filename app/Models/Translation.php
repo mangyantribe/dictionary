@@ -4,7 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['word_id','country_id','translation','sample'])]
+#[Fillable(['word_id','country_id','kahulugan','salin','halimbawa'])]
 class Translation extends Model
 {
 

@@ -53,7 +53,9 @@ new #[Layout('layouts::guest')] class extends Component
             <flux:input wire:model.live.debounce.300ms="search" class="w-full max-w-xs" placeholder="Search country"/>
             <div class="w-full space-y-2" wire:transition>
                 @forelse($countries as $country)
-                    <flux:callout color="sky" icon="flag" heading="{{ $country['name'] }}" class="cursor-pointer"/>
+                    <a href="{{ URL::signedRoute('details', ['id' => $country['id'],'country' => strtolower($country['name'])]) }}">
+                        <flux:callout color="sky" icon="flag" heading="{{ $country['name'] }}" class="mt-2"/>
+                    </a>
                 @empty
                     <div class="text-center py-10">
                         <flux:text class="text-zinc-500">No countries found.</flux:text>

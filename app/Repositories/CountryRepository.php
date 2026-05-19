@@ -26,7 +26,7 @@ class CountryRepository implements CountryInterface
     {
         return Country::query()->when($search, function ($query) use ($search){
             $query->where('name', 'like', '%' . $search . '%');
-        })->orderBy('name')->cursorPaginate(10, ['id', 'photo', 'name'], 'cursor', $cursor);
+        })->orderBy('name')->cursorPaginate(10, ['id', 'photo', 'code', 'name'], 'cursor', $cursor);
     }
 
     public function findCountry($id)

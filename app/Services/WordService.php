@@ -17,6 +17,7 @@ class WordService
     {
         $data = [
             'word' => $request->word,
+            'type' => $request->type,
         ];
         return $this->wordInterface->saveWord($data);
     }
@@ -36,16 +37,12 @@ class WordService
         $data = [
             'country_id' => $request->country,
             'word_id' => $request->wordId,
-            'translation' => $request->translation,
-            'sample' => $request->example,
+            'kahulugan' => $request->kahulugan,
+            'salin' => $request->salin,
+            'halimbawa' => $request->halimbawa,
         ];
         return $this->wordInterface->saveTranslation($data);
     }
-
-    // public function getTranslation($wordId,$cursor)
-    // {
-    //     return $this->wordInterface->getTranslation($wordId,$cursor);    
-    // }
 
     public function getTranslation($wordId,$cursor)
     {
@@ -58,12 +55,17 @@ class WordService
             $data[] = array(
                 'id'            => $translation->id,
                 'country'       => $translation->country?->name ,
-                'translation'   => $translation->translation,  
+                'kahulugan'     => $translation->kahulugan,  
             );
         }
         return [
             'data'   => $data,
             'cursor' => $translations->nextCursor()?->encode(),
         ];
+    }
+
+    public function getCountryWords($id)
+    {
+        return $this->wordInterface->getCountryWords($id);
     }
 }
