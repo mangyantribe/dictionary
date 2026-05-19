@@ -51,7 +51,7 @@ new #[Layout('layouts::guest')] class extends Component
                 @if($this->selectedCountry->photo)
                     <flux:avatar circle color="auto" src="{{ asset('storage/' . $this->selectedCountry->photo) }}" size="xs"/>
                  @else
-                    <flux:avatar circle color="auto" color:seed="{{ $country->id }}" :name="$this->selectedCountry->name" size="xs"/>
+                    <flux:avatar circle color="auto" color:seed="{{ $selectedCountry->id }}" :name="$this->selectedCountry->name" size="xs"/>
                 @endif
 
                 {{ ucfirst($this->country) }}
