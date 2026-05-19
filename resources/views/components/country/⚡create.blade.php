@@ -39,8 +39,8 @@ new class extends Component
     public function saveCountry()
     {
         $this->validate([
-            'name' => 'required',
-            'code' => 'required|unique:countries,code',
+            'name'  => 'required',
+            'code'  => 'required|unique:countries,code,' . $this->country_id,
             'photo' => 'nullable|image|max:2048',
         ]);
 
