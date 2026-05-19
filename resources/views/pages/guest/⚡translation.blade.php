@@ -47,7 +47,7 @@ new #[Layout('layouts::guest')] class extends Component
             <flux:input wire:model.live.debounce.300ms="search" class="w-full max-w-xs" placeholder="Search word..."/>
             <div class="w-full space-y-2" wire:transition>
                 @forelse($this->words as $word)
-                    <flux:callout color="sky" icon="flag" heading="{{ $word['word'] }}" wire:click="showDetails({{ $word['id'] }})"/>
+                    <flux:callout color="sky" icon="flag" heading="{{ $word['word'] }}" class="cursor-pointer" wire:click="showDetails({{ $word['id'] }})"/>
                 @empty
                     <div class="text-center py-10">
                         <flux:text class="text-zinc-500">No countries found.</flux:text>
