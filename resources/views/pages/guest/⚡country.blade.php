@@ -54,7 +54,17 @@ new #[Layout('layouts::guest')] class extends Component
             <div class="w-full space-y-2" wire:transition>
                 @forelse($countries as $country)
                     <a href="{{ URL::signedRoute('details', ['id' => $country['id'],'country' => strtolower($country['name'])]) }}">
-                        <flux:callout color="sky" icon="flag" heading="{{ $country['name'] }}" class="mt-2"/>
+                        <flux:callout color="sky" class="mt-2" >
+                        <x-slot name="icon">
+                            @if($country['photo'])
+                                <flux:avatar circle color="auto" src="{{ asset('storage/' . $country['photo']) }}" size="xs"/>
+                             @else
+                                <flux:avatar circle color="auto" color:seed="{{ $country['id'] }}" :name="$country['name']" size="xs"/>
+                            @endif
+                            
+                        </x-slot>
+                        <flux:callout.heading>{{ $country['name'] }}</flux:callout.heading>
+                    </flux:callout>
                     </a>
                 @empty
                     <div class="text-center py-10">

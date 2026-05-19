@@ -3,18 +3,26 @@
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use App\Services\WordService;
+use App\Services\CountryService;
 use Livewire\Attributes\Computed;
 new #[Layout('layouts::guest')] class extends Component
 {
     protected $wordService;
-
+    protected $countryService;
     public $search;
     public string $id;
     public string $country;
+    public $selectedCountry;
 
-    public function boot(WordService $wordService)
+    public function boot(WordService $wordService, CountryService $countryService)
     {
         $this->wordService = $wordService;
+        $this->countryService = $countryService;
+    }
+
+    public function mount()
+    {
+        $this->selectedCountry = $this->countryService->findCountry($this->id);
     }
 
     #[Computed]
@@ -40,7 +48,12 @@ new #[Layout('layouts::guest')] class extends Component
         <flux:card class="space-y-4 flex flex-col items-center">
 
             <flux:heading size="lg" class="flex items-center justify-center gap-2">
-                <flux:icon.flag /> 
+                @if($this->selectedCountry->photo)
+                    <flux:avatar circle color="auto" src="{{ asset('storage/' . $this->selectedCountry->photo) }}" size="xs"/>
+                 @else
+                    <flux:avatar circle color="auto" color:seed="{{ $country->id }}" :name="$this->selectedCountry->name" size="xs"/>
+                @endif
+
                 {{ ucfirst($this->country) }}
             </flux:heading>
             <flux:input wire:model.live.debounce.300ms="search" class="w-full max-w-xs" placeholder="Search word..."/>

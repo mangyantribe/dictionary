@@ -20,6 +20,7 @@ class CountryService
             'id'    => $request->id,
             'code'  => $request->code,
             'name' => $request->name,
+            'photo' => $request->photo,
         ];
         return $this->countryInterface->saveCountry($data);
     }
