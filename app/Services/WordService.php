@@ -42,8 +42,28 @@ class WordService
         return $this->wordInterface->saveTranslation($data);
     }
 
-    public function getTranslation($wordId)
+    // public function getTranslation($wordId,$cursor)
+    // {
+    //     return $this->wordInterface->getTranslation($wordId,$cursor);    
+    // }
+
+    public function getTranslation($wordId,$cursor)
     {
-        return $this->wordInterface->getTranslation($wordId);    
+        $data = [];
+
+        $translations = $this->wordInterface->getTranslation($wordId,$cursor);
+
+        foreach ($translations as $key => $translation) {
+
+            $data[] = array(
+                'id'            => $translation->id,
+                'country'       => $translation->country?->name ,
+                'translation'   => $translation->translation,  
+            );
+        }
+        return [
+            'data'   => $data,
+            'cursor' => $translations->nextCursor()?->encode(),
+        ];
     }
 }

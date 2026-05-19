@@ -13,22 +13,25 @@ new class extends Component
     public $wordId;
     public $country = '', $translation, $filipino, $example;
 
+
+    public $translations = [];
+    public $cursor = null;
+
     public function boot(CountryService $countryService,WordService $wordService)
     {
         $this->countryService = $countryService;
         $this->wordService = $wordService;
     }
 
+    public function mount()
+    {
+        $this->loadTranslation();
+    }
+
     #[Computed]
     public function countries()
     {
         return $this->countryService->getSearchCountries($this->searchCountry);
-    }
-
-    #[Computed]
-    public function translations()
-    {
-        return $this->wordService->getTranslation($this->wordId);
     }
 
     public function submitTranslation()
@@ -52,6 +55,21 @@ new class extends Component
             $this->dispatch('refresh-translation');
             Flux::toast(variant: 'success',heading: 'Created',text : 'New translation has been created.');
         }
+    }
+
+
+    public function loadTranslation()
+    {
+        $result = $this->wordService->getTranslation($this->wordId,$this->cursor);
+        $this->translations = array_merge($this->translations,$result['data']); 
+        $this->cursor = $result['cursor'];
+    }
+
+    public function loadMore()
+    {
+        if (!$this->cursor) return;
+
+        $this->loadTranslation();
     }
 };
 ?>
@@ -82,15 +100,22 @@ new class extends Component
         <flux:fieldset>
             <div class="space-y-4">
                 <h2 class="text-lg font-semibold">Translations</h2>
-
                 <div class="space-y-3">
                     @foreach ($this->translations as $translation)
                     <div class="rounded-lg border p-4">
-                        <p class="font-medium">{{ $translation->country?->name }}</p>
-                        <p class="text-sm text-zinc-500">{{ $translation->translation }}</p>
+                        <p class="font-medium">{{ $translation['country'] }}</p>
+                        <p class="text-sm text-zinc-500">{{ $translation['translation'] }}</p>
                     </div>
                     @endforeach
                 </div>
+
+                @if($cursor && count($translations))
+                    <div class="flex justify-center mt-6">
+                        <flux:badge as="button" wire:click="loadMore" variant="pill" icon:trailing="arrow-down" size="sm" color="sky" class="animate-bounce cursor-pointer capitalize">
+                            Show More Translation
+                        </flux:badge>
+                    </div>
+                @endif
             </div>
         </flux:fieldset>
     </div>
