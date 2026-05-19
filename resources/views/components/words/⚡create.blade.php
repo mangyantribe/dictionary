@@ -8,7 +8,7 @@ new class extends Component
 {
     protected $wordService;
     public $addWordModal = false;
-    public $word;
+    public $word, $type;
 
     public function boot(WordService $wordService)
     {
@@ -27,17 +27,20 @@ new class extends Component
     {
         $word = $this->wordService->findWord($id);
         $this->word =  $word->word;
+        $this->type = $word->type;
         $this->addWordModal = true;
     }
 
     public function saveWord()
     {
         $this->validate([
-            'word' => 'required'
+            'word' => 'required',
+            'type' => 'required'
         ]);
 
         $data = (object) [
             'word' => $this->word,
+            'type' => $this->type,
         ];
 
         $results = $this->wordService->saveWord($data);
@@ -67,7 +70,7 @@ new class extends Component
         </div>
 
         <flux:input wire:model="word" label="Word" placeholder="Word"/>
-
+        <flux:input wire:model="type" label="Type" placeholder="Ex. Noun, Adjective, Phrase etc."/>
         <div class="flex">
             <flux:spacer />
             <flux:button wire:click="saveWord" variant="primary">Save changes</flux:button>

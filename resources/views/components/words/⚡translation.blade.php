@@ -4,6 +4,7 @@ use Livewire\Component;
 use Livewire\Attributes\Computed;
 use App\Services\CountryService;
 use App\Services\WordService;
+use Livewire\Attributes\On;
 use Flux\Flux;
 new class extends Component
 {
@@ -11,7 +12,7 @@ new class extends Component
     protected $wordService;
     public $searchCountry;
     public $wordId;
-    public $country = '', $translation, $filipino, $example;
+    public $country = '', $kahulugan, $salin, $halimbawa;
 
 
     public $translations = [];
@@ -38,21 +39,24 @@ new class extends Component
     {
         $this->validate([
             'country' => 'required',
-            'translation' => 'required',
-            'example' => 'required',
+            'kahulugan' => 'required',
+            'halimbawa' => 'required',
         ]);
 
         $object = new \stdClass();
         $object->country = $this->country;
         $object->wordId = $this->wordId;
-        $object->translation = strtolower($this->translation);
-        $object->example = $this->example;
-
+        $object->kahulugan = strtolower($this->kahulugan);
+        $object->salin = $this->salin;
+        $object->halimbawa = $this->halimbawa;
 
         $result = $this->wordService->saveTranslation($object);
 
         if($result){
-            $this->dispatch('refresh-translation');
+            $this->translations = [];
+            $this->cursor = null;
+            $this->loadTranslation();
+            $this->resetFields();
             Flux::toast(variant: 'success',heading: 'Created',text : 'New translation has been created.');
         }
     }
@@ -71,6 +75,11 @@ new class extends Component
 
         $this->loadTranslation();
     }
+
+    public function resetFields()
+    {
+        $this->reset(['country','kahulugan','salin','halimbawa']);
+    }
 };
 ?>
 
@@ -87,8 +96,9 @@ new class extends Component
                               <flux:select.option :value="$country->id">{{ $country->name }}</flux:select.option>
                           @endforeach
                       </flux:select>
-                    <flux:textarea wire:model="translation" label="Translation" placeholder="Write the translation..."/>
-                    <flux:textarea wire:model="example" label="Example" placeholder="Write the example..."/>
+                    <flux:textarea wire:model="kahulugan" label="Kahulugan" placeholder="Isulat ang kahulugan..."/>
+                    <flux:textarea wire:model="salin" label="Salin (Pilipino)" placeholder="isulat ang salin..."/>
+                    <flux:textarea wire:model="halimbawa" label="Halimbawa" placeholder="isulat ang halimbawa..."/>
                     <flux:button variant="primary" type="submit" class="w-full">
                         Save Translation
                     </flux:button>
@@ -104,7 +114,7 @@ new class extends Component
                     @foreach ($this->translations as $translation)
                     <div class="rounded-lg border p-4">
                         <p class="font-medium">{{ $translation['country'] }}</p>
-                        <p class="text-sm text-zinc-500">{{ $translation['translation'] }}</p>
+                        <p class="text-sm text-zinc-500">{{ $translation['kahulugan'] }}</p>
                     </div>
                     @endforeach
                 </div>

@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('country_id')->constrained()->cascadeOnDelete();
             $table->foreignId('word_id')->constrained()->cascadeOnDelete();
-            $table->text('translation');
-            $table->text('sample');
+            $table->text('kahulugan');
+            $table->text('salin');
+            $table->text('halimbawa');
             $table->timestamps();
             $table->unique(['country_id', 'word_id']);
         });

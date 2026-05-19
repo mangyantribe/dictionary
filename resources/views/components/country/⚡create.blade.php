@@ -8,7 +8,7 @@ new class extends Component
 {
     protected $countryService;
     public $addCountryModal = false;
-    public $name;
+    public $name, $code;
     public $country_id;
 
     public function boot(CountryService $countryService)
@@ -29,17 +29,20 @@ new class extends Component
         $country = $this->countryService->findCountry($id);
         $this->country_id = $country->id;
         $this->name =  $country->name;
+        $this->code =  $country->code;
         $this->addCountryModal = true;
     }
 
     public function saveCountry()
     {
         $this->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'code' => 'required'
         ]);
 
         $data = (object) [
             'id'   => $this->country_id,
+            'code'  => strtolower($this->code),
             'name' => ucfirst($this->name),
         ];
 
@@ -70,7 +73,7 @@ new class extends Component
         </div>
 
         <flux:input wire:model="name" label="Country Name" placeholder="Country Name"/>
-
+        <flux:input wire:model="code" label="Country Code" placeholder="Country Code"/>
         <div class="flex">
             <flux:spacer />
             <flux:button wire:click="saveCountry" variant="primary">{{ $country_id ? 'Update' : 'Save changes' }}</flux:button>

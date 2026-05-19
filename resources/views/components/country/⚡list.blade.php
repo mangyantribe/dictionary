@@ -38,6 +38,7 @@ new class extends Component
 <flux:table :paginate="$this->countries">
     <flux:table.columns>
         <flux:table.column>Photo</flux:table.column>
+        <flux:table.column>Code</flux:table.column>
         <flux:table.column>Name</flux:table.column>
         <flux:table.column align="end"></flux:table.column>
     </flux:table.columns>
@@ -48,8 +49,8 @@ new class extends Component
                 <flux:table.cell class="flex items-center gap-3">
                     <flux:avatar circle color="auto" color:seed="{{ $country->id }}" :name="$country->name"/>
                 </flux:table.cell>
+                <flux:table.cell variant="strong">{{ $country->code }}</flux:table.cell>
                 <flux:table.cell variant="strong">{{ $country->name }}</flux:table.cell>
-
                 <flux:table.cell align="end">
                     <flux:button variant="primary" wire:click="editCountry({{ $country->id }})">Edit</flux:button>
                     <flux:button variant="danger" wire:click="deleteCountry({{ $country->id }})">Delete</flux:button>

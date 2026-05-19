@@ -43,6 +43,7 @@ new class extends Component
         <flux:table :paginate="$this->words">
             <flux:table.columns>
                 <flux:table.column>Words</flux:table.column>
+                <flux:table.column>Type</flux:table.column>
                 <flux:table.column align="end"></flux:table.column>
             </flux:table.columns>
 
@@ -54,7 +55,9 @@ new class extends Component
                         <flux:table.cell variant="strong">
                             {{ $word->word }}
                         </flux:table.cell>
-
+                        <flux:table.cell variant="strong">
+                            {{ $word->type }}
+                        </flux:table.cell>
                         <flux:table.cell align="end">
                             <flux:button icon="language" href="{{ URL::signedRoute('translation', $word) }}" variant="primary">
                                 Translation

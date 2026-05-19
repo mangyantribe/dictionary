@@ -16,7 +16,7 @@ new #[Title('Translation')] class extends Component
 
 <div>
     <flux:heading  size="xl" level="1" class="flex flex-col gap-4 sm:flex-row sm:items-center">
-        {{ __(ucfirst($word->word)) }}
+        {{ __(ucfirst($word->word)) }} ({{ ucfirst($word->type) }})
         <flux:spacer />
     </flux:heading>
     <flux:subheading size="lg" class="mb-6">{{ __('Word Translation for '. $word->word) }}</flux:subheading>

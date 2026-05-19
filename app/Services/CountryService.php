@@ -18,6 +18,7 @@ class CountryService
     {
         $data = [
             'id'    => $request->id,
+            'code'  => $request->code,
             'name' => $request->name,
         ];
         return $this->countryInterface->saveCountry($data);
@@ -44,7 +45,8 @@ class CountryService
             $data[] = array(
                 'id'         => $country->id,
                 'photo'      => $country->photo,
-                'name'       => $country->name,  
+                'code'       => $country->code,  
+                'name'       => $country->name,
             );
         }
         return [
@@ -57,4 +59,5 @@ class CountryService
     {
         return $this->countryInterface->findCountry($id);
     }
+
 }
