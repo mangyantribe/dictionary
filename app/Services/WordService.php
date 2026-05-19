@@ -44,11 +44,11 @@ class WordService
         return $this->wordInterface->saveTranslation($data);
     }
 
-    public function getTranslation($wordId,$cursor)
+    public function getTranslations($wordId,$cursor)
     {
         $data = [];
 
-        $translations = $this->wordInterface->getTranslation($wordId,$cursor);
+        $translations = $this->wordInterface->getTranslations($wordId,$cursor);
 
         foreach ($translations as $key => $translation) {
 
@@ -62,6 +62,12 @@ class WordService
             'data'   => $data,
             'cursor' => $translations->nextCursor()?->encode(),
         ];
+    }
+
+
+    public function getTranslation($countryId, $wordId)
+    {
+        return $this->wordInterface->getTranslation($countryId, $wordId);
     }
 
     public function getCountryWords($id)
