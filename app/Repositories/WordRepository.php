@@ -32,8 +32,14 @@ class WordRepository implements WordInterface
         );
     }
 
-    public function getTranslation($wordId)
+    public function getTranslation($wordId,$cursor = null)
     {
-        return Translation::with('country')->where('word_id', $wordId)->get();
+        //return Translation::with('country')->where('word_id', $wordId)->get();
+        return Translation::with('country')->where('word_id', $wordId)->cursorPaginate(
+            10,
+            ['id', 'country_id', 'translation'],
+            'cursor',
+            $cursor
+        );
     }
 }
