@@ -47,7 +47,11 @@ new class extends Component
         @foreach ($this->countries as $country)
             <flux:table.row :key="$country->id">
                 <flux:table.cell class="flex items-center gap-3">
-                    <flux:avatar circle color="auto" color:seed="{{ $country->id }}" :name="$country->name"/>
+                    @if($country->photo)
+                        <flux:avatar circle color="auto" src="{{ asset('storage/' . $country->photo) }}"/>
+                     @else
+                        <flux:avatar circle color="auto" color:seed="{{ $country->id }}" :name="$country->name"/>
+                    @endif
                 </flux:table.cell>
                 <flux:table.cell variant="strong">{{ $country->code }}</flux:table.cell>
                 <flux:table.cell variant="strong">{{ $country->name }}</flux:table.cell>
