@@ -48,11 +48,6 @@ class WordRepository implements WordInterface
         return Translation::where('word_id', $wordId)
             ->where('country_id', $countryId)
             ->first();
-
-            // return Translation::with(['word', 'country'])
-            // ->where('word_id', $wordId)
-            // ->where('country_id', $countryId)
-            // ->first();
     }
 
     public function getCountryWords($countryId, $search = null)
